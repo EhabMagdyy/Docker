@@ -1,0 +1,37 @@
+# version: '3.7'   # No longer reauired
+ 
+services:
+  # Custom Container
+  web:
+    build: .                  # build the the Dockerfile in the current directory
+    command: python webApp.py # run the command "python webApp.py" in the container
+    ports:                    # map port 5000 on the host to port 5000 on the container
+      #- "5000:5000"          # Not a recommended way
+      - target: 5000    
+        published: 5000
+    networks:
+      frontend-net:          # use network "frontend-net"
+      backend-net:           # use network "backend-net"
+    volumes:
+      - type: volume
+        source: counter-vol   # use network "counter-netwk"
+        target: /code         # mount to /code directory in the container
+
+  # Docker Hub Container
+  redis:
+    image: "redis:alpine"     # for this Service we use container from an image from Docker Hub
+    networks:
+      backend-net:            # use network "backend-net" (internal network only) 
+
+networks:
+  frontend-net:              # create a network called "frontend-net"
+  backend-net:               # create a network called "backend-net"
+      internal: true         # make the network internal
+
+volumes:
+  counter-vol:                # create a volume called "counter-vol"
+
+# to build & start: docker-compose up
+# to stop: docker-compose down          # delete containers & networks  but not volumes
+
+# docker-compose exec web ping -c 1 redis
