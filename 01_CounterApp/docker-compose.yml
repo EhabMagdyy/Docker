@@ -10,8 +10,8 @@ services:
       - target: 5000    
         published: 5000
     networks:
-      frontend-net:          # use network "frontend-net"
-      backend-net:           # use network "backend-net"
+      frontend-net:           # use network "frontend-net"
+      backend-net:            # use network "backend-net"
     volumes:
       - type: volume
         source: counter-vol   # use network "counter-netwk"
@@ -30,8 +30,4 @@ networks:
 
 volumes:
   counter-vol:                # create a volume called "counter-vol"
-
-# to build & start: docker-compose up
-# to stop: docker-compose down          # delete containers & networks  but not volumes
-
-# docker-compose exec web ping -c 1 redis
+  
